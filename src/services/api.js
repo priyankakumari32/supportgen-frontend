@@ -4,4 +4,9 @@ const API = axios.create({
   baseURL: "http://localhost:8080/api",
 });
 
+export const getComplaints = () => API.get("/complaints");
+
+export const addComplaint = (complaint) =>
+  API.post("/complaints", complaint);
+
 export default API;

@@ -1,67 +1,80 @@
-import { useEffect, useState } from "react";
-import API from "../../services/api";
 import "./ComplaintTable.css";
 
-function ComplaintTable() {
+function ComplaintTable({ complaints = [] }) {
+  const complaintList = Array.isArray(complaints) ? complaints : [];
 
-    const [complaints, setComplaints] = useState([]);
-
-    useEffect(() => {
-        fetchComplaints();
-    }, []);
-
-    const fetchComplaints = async () => {
-        try {
-            const response = await API.get("/complaints");
-            setComplaints(response.data);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    return (
-        <div className="table-container">
-
-            <h3>Recent Complaints</h3>
-
-            <table>
-
-                <thead>
-
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Issue</th>
-                    <th>Status</th>
-                    <th>Priority</th>
-                </tr>
-
-                </thead>
-
-                <tbody>
-
-                {complaints.map((complaint) => (
-
-                    <tr key={complaint.id}>
-
-                        <td>{complaint.id}</td>
-                        <td>{complaint.customerName}</td>
-                        <td>{complaint.email}</td>
-                        <td>{complaint.issue}</td>
-                        <td>{complaint.status}</td>
-                        <td>{complaint.priority}</td>
-
-                    </tr>
-
-                ))}
-
-                </tbody>
-
-            </table>
-
+  return (
+    <div className="table-card">
+      <div className="section-heading">
+        <div>
+          <p className="eyebrow">Live queue</p>
+          <h3>AI Complaint Analysis</h3>
         </div>
-    );
+        <span className="section-pill">Updated now</span>
+      </div>
+
+      <div className="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Customer</th>
+              <th>Issue</th>
+              <th>Priority</th>
+              <th>Category</th>
+              <th>Summary</th>
+              <th>AI Response</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {complaintList.length > 0 ? (
+              complaintList.map((complaint) => {
+                const priorityClass = (complaint.priority || "Medium")
+                  .toLowerCase();
+
+                const statusClass = (complaint.status || "Pending")
+                  .toLowerCase()
+                  .replace(/\s+/g, "-");
+
+                return (
+                  <tr key={complaint.id}>
+                    <td>{complaint.customerName}</td>
+
+                    <td>{complaint.issue}</td>
+
+                    <td>
+                      <span className={`priority ${priorityClass}`}>
+                        {complaint.priority}
+                      </span>
+                    </td>
+
+                    <td>{complaint.category}</td>
+
+                    <td>{complaint.summary}</td>
+
+                    <td>{complaint.aiResponse}</td>
+
+                    <td>
+                      <span className={`status ${statusClass}`}>
+                        {complaint.status}
+                      </span>
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
+                <td colSpan="7" className="empty-state">
+                  No complaints found.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
 }
 
 export default ComplaintTable;

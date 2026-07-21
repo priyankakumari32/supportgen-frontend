@@ -1,25 +1,109 @@
-.cards{
-    display:flex;
-    gap:20px;
-    margin-top:20px;
-    flex-wrap:wrap;
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
 }
 
-.card-box{
-    width:220px;
-    background:white;
-    border-radius:12px;
-    padding:25px;
-    box-shadow:0 2px 8px rgba(0,0,0,0.1);
-    text-align:center;
+.dashboard-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 16px 35px rgba(86, 54, 173, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-.card-box h2{
-    color:#6f42c1;
-    font-size:32px;
+.dashboard-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 45px rgba(86, 54, 173, 0.14);
 }
 
-.card-box p{
-    margin-top:10px;
-    color:gray;
+.dashboard-card::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary) 0%, #8b5cf6 100%);
+  opacity: 0.3;
+}
+
+.card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.card-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: rgba(109, 40, 217, 0.12);
+}
+
+.dashboard-card .card-icon {
+  font-size: 1.15rem;
+}
+
+.card-trend {
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(109, 40, 217, 0.08);
+  color: var(--primary-dark);
+}
+
+.dashboard-card h2 {
+  font-size: 1.8rem;
+  margin-bottom: 6px;
+  line-height: 1;
+}
+
+.dashboard-card p {
+  color: var(--muted);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.card-detail {
+  font-size: 0.82rem;
+  color: #8c84ad;
+}
+
+.dashboard-card.purple .card-icon-wrap {
+  background: rgba(109, 40, 217, 0.16);
+  color: var(--primary);
+}
+
+.dashboard-card.green .card-icon-wrap {
+  background: rgba(34, 197, 94, 0.14);
+  color: #15803d;
+}
+
+.dashboard-card.amber .card-icon-wrap {
+  background: rgba(245, 158, 11, 0.16);
+  color: #b45309;
+}
+
+.dashboard-card.red .card-icon-wrap {
+  background: rgba(239, 68, 68, 0.14);
+  color: #dc2626;
+}
+
+@media (max-width: 1100px) {
+  .dashboard-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .dashboard-cards {
+    grid-template-columns: 1fr;
+  }
 }
