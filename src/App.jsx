@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 
 import Sidebar from "./components/Sidebar/Sidebar";
 import Navbar from "./components/Navbar/Navbar";
-import DashboardCards from "./components/DashboardCards/DashboardCards";
-import ComplaintForm from "./components/ComplaintForm/ComplaintForm";
-import ComplaintTable from "./components/ComplaintTable/ComplaintTable";
+import OverviewPage from "./pages/OverviewPage";
+import ComplaintsPage from "./pages/ComplaintsPage";
+import AiResponsePage from "./pages/AiResponsePage";
+import AnalyticsPage from "./pages/AnalyticsPage";
+import SettingsPage from "./pages/SettingsPage";
 
 import { getComplaints } from "./services/api";
 
@@ -32,23 +35,17 @@ function App() {
         <Navbar />
 
         <main className="dashboard">
-          <section className="hero-panel">
-            <div>
-              <p className="hero-kicker">Operations Command Center</p>
-              <h2>SupportGen AI dashboard</h2>
-              <p>
-                Monitor tickets, prioritize responses, and guide every customer issue with clarity.
-              </p>
-            </div>
-            <div className="hero-chip">Live AI routing • 24/7</div>
-          </section>
-
-          <DashboardCards complaints={complaints} />
-
-          <div className="content-grid">
-            <ComplaintForm fetchComplaints={fetchComplaints} />
-            <ComplaintTable complaints={complaints} />
-          </div>
+          <Routes>
+            <Route path="/" element={<Navigate to="/overview" replace />} />
+            <Route path="/overview" element={<OverviewPage complaints={complaints} />} />
+            <Route
+              path="/complaints"
+              element={<ComplaintsPage complaints={complaints} fetchComplaints={fetchComplaints} />}
+            />
+            <Route path="/ai-response" element={<AiResponsePage />} />
+            <Route path="/analytics" element={<AnalyticsPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
+          </Routes>
         </main>
       </div>
     </div>

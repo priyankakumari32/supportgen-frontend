@@ -1,0 +1,51 @@
+.response-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 24px;
+}
+
+.response-list {
+  display: grid;
+  gap: 12px;
+}
+
+.response-card {
+  border: 1px solid #dbeafe;
+  border-radius: 16px;
+  padding: 16px;
+  background: #f8fbff;
+}
+
+.response-card h4 {
+  margin-bottom: 8px;
+  color: #1d4ed8;
+}
+
+.response-card p {
+  color: #475569;
+  margin-bottom: 10px;
+}
+
+.response-card button {
+  border: none;
+  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+  color: white;
+  padding: 9px 12px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.assistant-card {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #eff6ff 0%, #f8fbff 100%);
+  color: #1e3a8a;
+}
+
+@media (max-width: 900px) {
+  .response-grid {
+    grid-template-columns: 1fr;
+  }
+}

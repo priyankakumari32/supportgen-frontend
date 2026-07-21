@@ -1,0 +1,9 @@
+.compact {
+  padding: 20px 24px;
+}
+
+@media (max-width: 860px) {
+  .compact {
+    padding: 18px 20px;
+  }
+}
