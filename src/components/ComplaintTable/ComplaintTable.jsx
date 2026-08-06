@@ -1,16 +1,19 @@
 import "./ComplaintTable.css";
 
-function ComplaintTable({ complaints = [] }) {
+function ComplaintTable({complaints = [],onViewComplaint,}) {
   const complaintList = Array.isArray(complaints) ? complaints : [];
 
   return (
     <div className="table-card">
       <div className="section-heading">
         <div>
-          <p className="eyebrow">Live queue</p>
-          <h3>AI Complaint Analysis</h3>
+          <p className="eyebrow">Live Queue</p>
+          <h3>Customer Complaints</h3>
         </div>
-        <span className="section-pill">Updated now</span>
+
+        <span className="section-pill">
+          {complaintList.length} Complaints
+        </span>
       </div>
 
       <div className="table-wrap">
@@ -18,22 +21,24 @@ function ComplaintTable({ complaints = [] }) {
           <thead>
             <tr>
               <th>Customer</th>
-              <th>Issue</th>
-              <th>Priority</th>
+              <th>Email</th>
               <th>Category</th>
-              <th>Summary</th>
-              <th>AI Response</th>
+              <th>Priority</th>
               <th>Status</th>
+              <th>Action</th>
             </tr>
           </thead>
 
           <tbody>
             {complaintList.length > 0 ? (
               complaintList.map((complaint) => {
-                const priorityClass = (complaint.priority || "Medium")
-                  .toLowerCase();
+                const priorityClass = (
+                  complaint.priority || "Medium"
+                ).toLowerCase();
 
-                const statusClass = (complaint.status || "Pending")
+                const statusClass = (
+                  complaint.status || "Pending"
+                )
                   .toLowerCase()
                   .replace(/\s+/g, "-");
 
@@ -41,7 +46,9 @@ function ComplaintTable({ complaints = [] }) {
                   <tr key={complaint.id}>
                     <td>{complaint.customerName}</td>
 
-                    <td>{complaint.issue}</td>
+                    <td>{complaint.email}</td>
+
+                    <td>{complaint.category}</td>
 
                     <td>
                       <span className={`priority ${priorityClass}`}>
@@ -49,23 +56,26 @@ function ComplaintTable({ complaints = [] }) {
                       </span>
                     </td>
 
-                    <td>{complaint.category}</td>
-
-                    <td>{complaint.summary}</td>
-
-                    <td>{complaint.aiResponse}</td>
-
                     <td>
                       <span className={`status ${statusClass}`}>
                         {complaint.status}
                       </span>
+                    </td>
+
+                    <td>
+                    <button
+                      className="view-btn"
+                      onClick={() => onViewComplaint(complaint)}
+                       >
+                          View
+                    </button>
                     </td>
                   </tr>
                 );
               })
             ) : (
               <tr>
-                <td colSpan="7" className="empty-state">
+                <td colSpan="6" className="empty-state">
                   No complaints found.
                 </td>
               </tr>

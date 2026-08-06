@@ -11,9 +11,11 @@ import AnalyticsPage from "./pages/AnalyticsPage";
 import SettingsPage from "./pages/SettingsPage";
 
 import { getComplaints } from "./services/api";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const [complaints, setComplaints] = useState([]);
+  
 
   const fetchComplaints = () => {
     getComplaints()
@@ -32,7 +34,7 @@ function App() {
       <Sidebar />
 
       <div className="main-content">
-        <Navbar />
+       <Navbar />
 
         <main className="dashboard">
           <Routes>
@@ -42,11 +44,22 @@ function App() {
               path="/complaints"
               element={<ComplaintsPage complaints={complaints} fetchComplaints={fetchComplaints} />}
             />
-            <Route path="/ai-response" element={<AiResponsePage />} />
-            <Route path="/analytics" element={<AnalyticsPage />} />
+            <Route
+    path="/ai-response"
+    element={<AiResponsePage complaints={complaints} />}
+/>
+            <Route
+  path="/analytics"
+  element={<AnalyticsPage complaints={complaints} />}
+/>
             <Route path="/settings" element={<SettingsPage />} />
           </Routes>
-        </main>
+          <ToastContainer
+      position="top-right"
+      autoClose={3000}
+      theme="colored"
+      />
+      </main>
       </div>
     </div>
   );

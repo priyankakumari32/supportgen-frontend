@@ -86,3 +86,29 @@
   transform: translateY(-2px);
   box-shadow: 0 16px 28px rgba(109, 40, 217, 0.24);
 }
+.submit-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+}
+
+.submit-btn:disabled{
+    opacity:0.85;
+    cursor:not-allowed;
+}
+
+.spinner{
+    width:16px;
+    height:16px;
+    border:2px solid rgba(255,255,255,.35);
+    border-top:2px solid #fff;
+    border-radius:50%;
+    animation:spin .8s linear infinite;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}

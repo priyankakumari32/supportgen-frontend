@@ -1,8 +1,9 @@
 import { useState } from "react";
 import API from "../../services/api";
 import "./ComplaintForm.css";
+import { toast } from "react-toastify";
 
-function ComplaintForm({ fetchComplaints }) {
+function ComplaintForm({ fetchComplaints, onSuccess }) {
 
   const [loading, setLoading] = useState(false);
 
@@ -27,29 +28,38 @@ function ComplaintForm({ fetchComplaints }) {
 
     try {
 
-      await API.post("/complaints", formData);
+  const response = await API.post("/complaints", formData);
 
-      fetchComplaints();
+  fetchComplaints();
 
-      setFormData({
-        customerName: "",
-        email: "",
-        issue: "",
-      });
+  if (onSuccess) {
+    onSuccess();
+  }
 
-      alert("Complaint analyzed successfully by AI!");
+  setFormData({
+    customerName: "",
+    email: "",
+    issue: "",
+  });
 
-    } catch (error) {
+  toast.success("Complaint analyzed successfully!");
 
-      console.log(error);
+  // Show warning if AI escalated the complaint
+  if (response.data.status === "Escalated") {
+    toast.warning("⚠ Complaint escalated to Human Support.");
+  }
 
-      alert("Something went wrong.");
+} catch (error) {
 
-    } finally {
+  console.log(error);
 
-      setLoading(false);
+  toast.error("Failed to analyze complaint.");
 
-    }
+} finally {
+
+  setLoading(false);
+
+}
   };
 
   return (
@@ -98,10 +108,20 @@ function ComplaintForm({ fetchComplaints }) {
         required
       />
 
-      <button type="submit" disabled={loading}>
-        {loading ? "AI is analyzing..." : "Submit Complaint"}
-      </button>
-
+     <button
+  type="submit"
+  className="submit-btn"
+  disabled={loading}
+>
+  {loading ? (
+    <>
+      <span className="spinner"></span>
+      AI is analyzing...
+    </>
+  ) : (
+    "🤖 Analyze with AI & Submit"
+  )}
+</button>
     </form>
   );
 }
